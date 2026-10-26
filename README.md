@@ -1,9 +1,4 @@
-# CNN.VISUALIZER — Interactive Deep Learning Architecture Explorer
 
-> **Live Demo →** [cnn-visualizer-ffaj.onrender.com](https://cnn-visualizer-ffaj.onrender.com)  
-> **Stack:** Python · Flask · TensorFlow · MobileNetV2 · HTML5 Canvas · Vanilla JS · Render
-
----
 
 ## What Is This?
 
