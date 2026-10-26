@@ -8,44 +8,44 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CNN.VISUALIZER — MobileNetV2 Explorer</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#020408;--panel:rgba(4,12,22,0.92);
-  --border:rgba(0,200,255,0.14);--brite:rgba(0,200,255,0.38);
-  --cyan:#00c8ff;--orange:#ff6a00;--gold:#ffd700;--green:#00ff88;
-  --purple:#a855f7;--teal:#00e5c8;--red:#ff3355;
-  --text:#c8e8ff;--dim:rgba(200,232,255,0.45);
-  --gcyan:0 0 18px rgba(0,200,255,0.55),0 0 40px rgba(0,200,255,0.2);
-  --gorange:0 0 18px rgba(255,106,0,0.6),0 0 40px rgba(255,106,0,0.25);
-  --ggold:0 0 16px rgba(255,215,0,0.5);
-  --ggreen:0 0 16px rgba(0,255,136,0.5);
+  --bg:#10151b;--panel:rgba(22,29,37,0.97);
+  --border:rgba(181,198,205,0.12);--brite:rgba(125,226,209,0.4);
+  --cyan:#7de2d1;--orange:#f3a77c;--gold:#f0d28a;--green:#a8d8a4;
+  --purple:#c2a9ed;--teal:#82d9cf;--red:#ed8b8b;
+  --text:#e6e9e7;--dim:rgba(205,215,213,0.62);
+  --gcyan:0 0 20px rgba(125,226,209,0.18);
+  --gorange:0 0 20px rgba(243,167,124,0.18);
+  --ggold:0 0 16px rgba(240,210,138,0.22);
+  --ggreen:0 0 16px rgba(168,216,164,0.2);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;height:100vh;overflow:hidden;user-select:none;}
+body{background:radial-gradient(ellipse at 50% 10%,#1a2c31 0%,var(--bg) 52%);color:var(--text);font-family:'DM Sans',sans-serif;height:100vh;overflow:hidden;}
 #stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
-body::before{content:'';position:fixed;inset:0;background:linear-gradient(rgba(0,200,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,0.025) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;z-index:1;}
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);pointer-events:none;z-index:1;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 85% 75%,rgba(125,226,209,0.05),transparent 32%);pointer-events:none;z-index:1;}
+body::after{display:none;}
 
-#app{position:relative;z-index:2;display:grid;grid-template-rows:52px 1fr 106px;grid-template-columns:268px 1fr 298px;height:100vh;}
+#app{position:relative;z-index:2;display:grid;grid-template-rows:60px minmax(0,1fr) 112px;grid-template-columns:280px minmax(0,1fr) 330px;height:100vh;}
 
 /* HEADER */
-#header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:rgba(2,6,12,0.97);border-bottom:1px solid var(--border);backdrop-filter:blur(24px);}
-.logo{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:900;letter-spacing:4px;color:var(--cyan);text-shadow:var(--gcyan);display:flex;align-items:center;gap:10px;}
+#header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:rgba(17,23,29,.97);border-bottom:1px solid var(--border);backdrop-filter:blur(24px);}
+.logo{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;letter-spacing:1.5px;color:var(--cyan);display:flex;align-items:center;gap:10px;}
 .logo-dot{color:var(--orange);}
-.logo-sub{font-size:8.5px;letter-spacing:2.5px;color:var(--dim);font-weight:400;margin-left:4px;}
+.logo-sub{font-size:9px;letter-spacing:1px;color:var(--dim);font-weight:400;margin-left:4px;}
 .header-mid{display:flex;align-items:center;gap:14px;font-size:10px;color:var(--dim);}
-.prog-wrap{width:130px;height:3px;background:rgba(0,200,255,0.1);border-radius:2px;}
+.prog-wrap{width:130px;height:4px;background:rgba(125,226,209,0.12);border-radius:4px;overflow:hidden;}
 .prog-fill{height:100%;background:var(--cyan);border-radius:2px;transition:width 0.5s;box-shadow:var(--gcyan);}
 .header-controls{display:flex;gap:8px;align-items:center;}
-.btn{font-family:'Orbitron',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:2px;padding:6px 14px;border-radius:3px;border:1px solid;cursor:pointer;transition:all 0.2s;background:transparent;}
+.btn{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;letter-spacing:.4px;padding:8px 14px;border-radius:8px;border:1px solid;cursor:pointer;transition:all 0.2s;background:transparent;}
 .btn-cyan{border-color:var(--cyan);color:var(--cyan);}
-.btn-cyan:hover{background:rgba(0,200,255,0.1);box-shadow:var(--gcyan);}
+.btn-cyan:hover{background:rgba(125,226,209,0.1);box-shadow:var(--gcyan);}
 .btn-orange{border-color:var(--orange);color:var(--orange);}
-.btn-orange:hover{background:rgba(255,106,0,0.1);box-shadow:var(--gorange);}
+.btn-orange:hover{background:rgba(243,167,124,0.1);box-shadow:var(--gorange);}
 .btn-green{border-color:var(--green);color:var(--green);}
-.btn-green:hover{background:rgba(0,255,136,0.1);}
-.speed-sel{font-family:'Orbitron',sans-serif;font-size:9px;background:rgba(0,200,255,0.04);border:1px solid var(--border);color:var(--cyan);padding:5px 9px;border-radius:3px;cursor:pointer;}
+.btn-green:hover{background:rgba(168,216,164,0.1);}
+.speed-sel{font-family:'Space Grotesk',sans-serif;font-size:11px;background:#19232a;border:1px solid var(--border);color:var(--cyan);padding:6px 9px;border-radius:7px;cursor:pointer;}
 .backend-badge{display:flex;align-items:center;gap:6px;font-size:8.5px;letter-spacing:1px;padding:4px 10px;border:1px solid var(--border);border-radius:3px;color:var(--dim);transition:all 0.3s;}
 .backend-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:all 0.3s;}
 .backend-badge.live{border-color:rgba(0,255,136,0.35);color:var(--green);}
@@ -58,24 +58,24 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 /* LEFT PANEL */
 #left-panel{grid-row:2;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;backdrop-filter:blur(20px);}
-.panel-hdr{font-family:'Orbitron',sans-serif;font-size:8.5px;font-weight:700;letter-spacing:3px;color:var(--dim);padding:11px 14px 9px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.panel-hdr{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;letter-spacing:.8px;color:var(--dim);padding:13px 14px 10px;border-bottom:1px solid var(--border);flex-shrink:0;}
 #layer-list{flex:1;overflow-y:auto;padding:6px 0;min-height:0;}
 #layer-list::-webkit-scrollbar{width:2px;}
 #layer-list::-webkit-scrollbar-thumb{background:var(--brite);border-radius:2px;}
-.layer-item{display:flex;align-items:center;gap:9px;padding:8px 13px;cursor:pointer;transition:all 0.18s;border-left:2px solid transparent;}
-.layer-item:hover{background:rgba(0,200,255,0.05);}
-.layer-item.active{background:rgba(0,200,255,0.09);border-left-color:var(--cyan);}
+.layer-item{display:flex;align-items:center;gap:9px;padding:9px 13px;cursor:pointer;transition:all 0.18s;border-left:2px solid transparent;}
+.layer-item:hover{background:rgba(125,226,209,0.05);}
+.layer-item.active{background:rgba(125,226,209,0.09);border-left-color:var(--cyan);}
 .layer-item.passed{opacity:0.42;}
 .l-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .layer-item.active .l-dot{box-shadow:0 0 8px currentColor;}
 .l-info{flex:1;min-width:0;}
-.l-name{font-family:'Orbitron',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:1px;line-height:1.2;}
-.l-shape{font-size:8.5px;color:var(--dim);margin-top:2px;}
-.l-params{font-size:8px;color:var(--dim);}
+.l-name{font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:600;letter-spacing:.2px;line-height:1.2;}
+.l-shape{font-size:9px;color:var(--dim);margin-top:3px;}
+.l-params{font-size:9px;color:var(--dim);}
 #image-section{padding:10px 13px;border-top:1px solid var(--border);flex-shrink:0;}
-#upload-zone{border:1px dashed var(--brite);border-radius:4px;padding:13px 10px;text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(0,200,255,0.02);}
-#upload-zone:hover{border-color:var(--cyan);background:rgba(0,200,255,0.06);}
-#upload-zone p{font-size:9.5px;color:var(--dim);margin-top:4px;}
+#upload-zone{font:inherit;color:inherit;width:100%;border:1px dashed var(--brite);border-radius:9px;padding:13px 10px;text-align:center;cursor:pointer;transition:all 0.2s;background:rgba(125,226,209,0.025);}
+#upload-zone:hover{border-color:var(--cyan);background:rgba(125,226,209,0.07);}
+#upload-zone p{font-size:10px;color:var(--dim);margin-top:4px;line-height:1.5;}
 #file-input{display:none;}
 #preview-img{display:none;width:100%;height:auto;max-height:160px;object-fit:contain;margin-top:10px;border:1px solid var(--border);border-radius:4px;background:rgba(0,0,0,0.3);}
 #proc-status{display:none;text-align:center;padding:5px 0;font-size:8.5px;color:var(--cyan);letter-spacing:1.5px;}
@@ -83,27 +83,27 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .blinking{animation:blink 1s step-end infinite;}
 
 /* CENTER */
-#center-panel{grid-row:2;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,rgba(0,40,90,0.25) 0%,var(--bg) 70%);}
+#center-panel{grid-row:2;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,rgba(45,83,78,.2) 0%,var(--bg) 70%);}
 #main-canvas{display:block;width:100%;height:100%;}
-#layer-label{position:absolute;top:14px;left:50%;transform:translateX(-50%);font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;pointer-events:none;transition:all 0.3s;text-shadow:var(--gcyan);}
-#journey-text{position:absolute;top:44px;left:50%;transform:translateX(-50%);background:rgba(2,6,12,0.88);border:1px solid rgba(0,200,255,0.3);padding:5px 20px;border-radius:20px;font-size:10px;color:var(--cyan);z-index:10;white-space:nowrap;pointer-events:none;box-shadow:0 0 12px rgba(0,200,255,0.2);}
+#layer-label{position:absolute;top:15px;left:50%;transform:translateX(-50%);font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;pointer-events:none;transition:all 0.3s;}
+#journey-text{position:absolute;top:48px;left:50%;transform:translateX(-50%);max-width:calc(100% - 36px);background:rgba(17,23,29,.94);border:1px solid var(--border);padding:9px 16px;border-radius:10px;font-size:12px;color:var(--text);line-height:1.5;text-align:center;z-index:10;pointer-events:none;}
 
 /* Feature-map drawer */
-#fmap-drawer{position:absolute;bottom:0;left:0;right:0;height:0;overflow:hidden;transition:height 0.45s cubic-bezier(0.4,0,0.2,1);background:rgba(2,8,18,0.94);border-top:1px solid var(--border);backdrop-filter:blur(12px);}
+#fmap-drawer{position:absolute;bottom:0;left:0;right:0;height:0;overflow:hidden;transition:height 0.45s cubic-bezier(0.4,0,0.2,1);background:rgba(22,29,37,.96);border-top:1px solid var(--border);backdrop-filter:blur(12px);}
 #fmap-drawer.open{height:136px;}
 #fmap-inner{padding:9px 14px;display:flex;gap:10px;align-items:center;height:100%;overflow-x:auto;}
 #fmap-inner::-webkit-scrollbar{height:2px;}
 #fmap-inner::-webkit-scrollbar-thumb{background:var(--brite);}
-.fmap-section-lbl{font-family:'Orbitron',sans-serif;font-size:7.5px;letter-spacing:2px;color:var(--dim);writing-mode:vertical-lr;flex-shrink:0;margin-right:2px;}
+.fmap-section-lbl{font-family:'Space Grotesk',sans-serif;font-size:9px;letter-spacing:1px;color:var(--dim);writing-mode:vertical-lr;flex-shrink:0;margin-right:2px;}
 .fmap-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;}
 .fmap-canvas{width:80px;height:80px;border-radius:3px;border:1px solid var(--border);image-rendering:pixelated;cursor:crosshair;transition:transform 0.25s,border-color 0.2s,box-shadow 0.2s;}
 .fmap-canvas:hover{transform:scale(3.2);z-index:50;border-color:var(--gold);box-shadow:var(--ggold);}
 .fmap-lbl{font-size:7px;letter-spacing:1px;}
 
 /* Probabilities panel */
-#prob-panel{position:absolute;right:14px;bottom:0;width:240px;background:rgba(2,8,18,0.96);border:1px solid var(--border);border-bottom:none;border-radius:6px 6px 0 0;padding:12px;transform:translateY(100%);transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);}
+#prob-panel{position:absolute;right:14px;bottom:0;width:240px;background:rgba(22,29,37,.97);border:1px solid var(--border);border-bottom:none;border-radius:14px 14px 0 0;padding:12px;transform:translateY(100%);transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);}
 #prob-panel.open{transform:translateY(0);}
-.prob-hdr{font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:2.5px;color:var(--dim);margin-bottom:9px;}
+.prob-hdr{font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:.8px;color:var(--dim);margin-bottom:9px;line-height:1.5;}
 .prob-row{display:flex;align-items:center;gap:6px;margin:4px 0;}
 .prob-cls{font-size:8.5px;width:82px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0;}
 .prob-track{flex:1;height:11px;background:rgba(0,255,136,0.07);border-radius:2px;overflow:hidden;}
@@ -113,7 +113,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .prob-pct.top{color:var(--gold);}
 
 /* Explain strip */
-#explain-box{position:absolute;left:14px;bottom:0;max-width:calc(100% - 268px);background:rgba(2,8,18,0.94);border:1px solid var(--border);border-bottom:none;border-radius:6px 6px 0 0;padding:10px 14px;transform:translateY(100%);transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);font-size:9.5px;color:var(--dim);line-height:1.5;}
+#explain-box{position:absolute;left:14px;bottom:0;max-width:calc(100% - 268px);background:rgba(22,29,37,.97);border:1px solid var(--border);border-bottom:none;border-radius:14px 14px 0 0;padding:10px 14px;transform:translateY(100%);transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);font-size:11px;color:var(--dim);line-height:1.5;}
 #explain-box.open{transform:translateY(0);}
 #explain-box strong{color:var(--teal);}
 
@@ -122,83 +122,164 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 #inspector{flex:1;overflow-y:auto;padding:13px 12px;}
 #inspector::-webkit-scrollbar{width:2px;}
 #inspector::-webkit-scrollbar-thumb{background:var(--brite);border-radius:2px;}
-.insp-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 11px;border-radius:20px;border:1px solid;font-family:'Orbitron',sans-serif;font-size:8.5px;font-weight:700;letter-spacing:2px;margin-bottom:13px;}
+.insp-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:20px;border:1px solid;font-family:'Space Grotesk',sans-serif;font-size:10px;font-weight:600;letter-spacing:.5px;margin-bottom:13px;}
 .insp-sec{margin-bottom:13px;}
-.insp-lbl{font-family:'Orbitron',sans-serif;font-size:7.5px;letter-spacing:3px;color:var(--dim);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.insp-lbl{font-family:'Space Grotesk',sans-serif;font-size:10px;letter-spacing:.7px;color:var(--dim);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
 .insp-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
-.insp-text{font-size:10.5px;line-height:1.7;color:var(--text);}
-.formula-box{background:rgba(0,200,255,0.04);border:1px solid var(--border);border-radius:4px;padding:9px 11px;font-size:10.5px;color:var(--cyan);line-height:1.8;}
-.formula-detail{font-size:8.5px;color:var(--dim);margin-top:4px;display:block;}
-.analogy-box{background:rgba(255,106,0,0.05);border:1px solid rgba(255,106,0,0.2);border-left:3px solid var(--orange);border-radius:4px;padding:9px 11px;font-size:10.5px;color:var(--text);line-height:1.7;}
+.insp-text{font-size:12px;line-height:1.65;color:var(--text);}
+.formula-box{background:rgba(125,226,209,0.045);border:1px solid var(--border);border-radius:9px;padding:9px 11px;font-size:11px;color:var(--cyan);line-height:1.7;overflow-wrap:anywhere;}
+.formula-detail{font-size:10px;color:var(--dim);margin-top:4px;display:block;}
+.analogy-box{background:rgba(243,167,124,0.05);border:1px solid rgba(243,167,124,0.2);border-left:3px solid var(--orange);border-radius:9px;padding:9px 11px;font-size:11.5px;color:var(--text);line-height:1.65;}
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:13px;}
-.stat-card{background:rgba(0,200,255,0.04);border:1px solid var(--border);border-radius:4px;padding:7px 9px;}
+.stat-card{background:rgba(125,226,209,0.035);border:1px solid var(--border);border-radius:9px;padding:8px 10px;}
 .stat-v{font-size:12.5px;font-weight:600;}
-.stat-k{font-size:8px;color:var(--dim);margin-top:2px;letter-spacing:1px;}
+.stat-k{font-size:9px;color:var(--dim);margin-top:3px;letter-spacing:.5px;}
 .bar-row{display:flex;align-items:center;gap:7px;margin:4px 0;}
 .bar-lbl{font-size:9px;width:58px;color:var(--dim);flex-shrink:0;}
 .bar-track{flex:1;height:5px;background:rgba(0,200,255,0.07);border-radius:3px;overflow:hidden;}
 .bar-fill{height:100%;border-radius:3px;transition:width 0.8s cubic-bezier(0.4,0,0.2,1);}
 .bar-pct{font-size:8.5px;color:var(--dim);width:26px;text-align:right;flex-shrink:0;}
-.interview-box{background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.2);border-radius:4px;padding:9px 11px;font-size:9.5px;color:var(--text);line-height:1.65;}
-.tag{display:inline-block;background:rgba(168,85,247,0.18);color:var(--purple);font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:2px;padding:2px 6px;border-radius:2px;margin-bottom:5px;}
-.intuition-box{margin-top:12px;padding:9px 11px;background:rgba(0,200,255,0.03);border:1px solid var(--border);border-radius:4px;}
+.interview-box{background:rgba(168,85,247,0.05);border:1px solid rgba(168,85,247,0.2);border-radius:4px;padding:9px 11px;font-size:11px;color:var(--text);line-height:1.65;}
+.tag{display:inline-block;background:rgba(194,169,237,0.13);color:var(--purple);font-family:'Space Grotesk',sans-serif;font-size:9px;letter-spacing:.5px;padding:3px 7px;border-radius:5px;margin-bottom:5px;}
+.intuition-box{margin-top:12px;padding:10px 12px;background:rgba(125,226,209,0.035);border:1px solid var(--border);border-radius:9px;}
 .fmap-thumb-area{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px;}
 .fmap-thumb{width:38px;height:38px;border-radius:2px;image-rendering:pixelated;}
-.hover-fade{opacity:0.38;transition:opacity 0.3s;cursor:default;}
+.hover-fade{opacity:0.72;transition:opacity 0.3s;cursor:default;}
 .hover-fade:hover{opacity:1;}
 
 /* TIMELINE */
-#timeline{grid-column:1/-1;grid-row:3;background:rgba(2,6,12,0.98);border-top:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:0 18px;backdrop-filter:blur(20px);}
+#timeline{grid-column:1/-1;grid-row:3;background:rgba(17,23,29,.98);border-top:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;padding:0 18px;backdrop-filter:blur(20px);}
 .tl-track{display:flex;align-items:center;position:relative;margin-bottom:5px;}
-.tl-conn{flex:1;height:2px;background:rgba(0,200,255,0.1);transition:background 0.4s;}
+.tl-conn{flex:1;height:2px;background:rgba(181,198,205,0.14);transition:background 0.4s;}
 .tl-conn.passed{background:var(--cyan);}
-.tl-node{width:26px;height:26px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.25s;font-size:8px;font-weight:700;background:var(--bg);}
+.tl-node{width:28px;height:28px;border-radius:10px;border:1px solid;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.25s;font:600 10px 'Space Grotesk',sans-serif;background:var(--bg);}
 .tl-node:hover{transform:scale(1.15);}
 .tl-node.active{transform:scale(1.2);box-shadow:0 0 14px currentColor;}
-.tl-labels{display:flex;justify-content:space-between;padding:0 13px;}
-.tl-lbl{font-size:7px;color:var(--dim);text-align:center;transition:color 0.3s;min-width:26px;}
+.tl-node:focus-visible,.layer-item:focus-visible,.btn:focus-visible,#upload-zone:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+.tl-labels{display:flex;justify-content:space-between;padding:0 13px;gap:4px;}
+.tl-lbl{font-size:10px;color:var(--dim);text-align:center;transition:color 0.3s;min-width:26px;flex:1;line-height:1.3;}
 .tl-lbl.active{color:var(--cyan);}
 
 /* MODAL */
-#modal-overlay{position:fixed;inset:0;background:rgba(1,4,9,0.88);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.4s;}
+#modal-overlay{position:fixed;inset:0;background:linear-gradient(135deg,rgba(16,21,27,.98),rgba(18,31,36,.98));z-index:9999;display:flex;align-items:center;justify-content:center;overflow-y:auto;padding:36px 24px;transition:opacity 0.4s;}
 #modal-overlay.hidden{opacity:0;pointer-events:none;}
-#modal-box{background:rgba(4,14,26,0.98);border:1px solid var(--brite);box-shadow:var(--gcyan);border-radius:8px;padding:28px 30px;max-width:480px;width:90%;text-align:center;}
-#modal-box h2{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:900;letter-spacing:3px;color:var(--cyan);text-shadow:var(--gcyan);margin-bottom:8px;}
-#modal-box p{font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:20px;}
-.modal-brief{background:rgba(0,200,255,0.04);border-left:3px solid var(--cyan);padding:14px;text-align:left;margin-bottom:22px;border-radius:0 4px 4px 0;}
-.modal-brief strong{color:#fff;font-size:10px;letter-spacing:1px;}
-.modal-brief ul{font-size:11px;color:var(--dim);margin-top:8px;padding-left:18px;line-height:1.8;}
+body.landing{overflow:hidden;}
+body.landing #app{visibility:hidden;}
+body.landing #stars{opacity:.2;}
+#modal-box{width:min(100%,1000px);padding:0;text-align:left;}
+.landing-topbar{display:flex;align-items:center;justify-content:space-between;padding-bottom:25px;border-bottom:1px solid var(--border);}
+.landing-brand{font:700 15px 'Space Grotesk',sans-serif;letter-spacing:1.2px;color:var(--text);}
+.landing-brand span{color:var(--cyan);}
+.landing-model{font-size:11px;color:var(--dim);display:flex;align-items:center;gap:8px;}
+.landing-model::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(168,216,164,.45);}
+.landing-hero{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:56px;padding:56px 0 48px;}
+.landing-kicker{font:600 11px 'Space Grotesk',sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:18px;}
+.landing-copy h1{font:600 clamp(36px,5.5vw,62px)/1.05 'Space Grotesk',sans-serif;letter-spacing:-2px;color:#f1f3f1;max-width:560px;}
+.landing-copy h1 span{color:var(--cyan);}
+.landing-copy>p{font-size:16px;line-height:1.75;color:var(--dim);max-width:510px;margin-top:20px;}
+.landing-visual{position:relative;min-height:248px;border:1px solid var(--border);border-radius:20px;background:linear-gradient(145deg,rgba(36,54,58,.72),rgba(23,31,39,.94));padding:24px;overflow:hidden;}
+.landing-visual::after{content:'';position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(125,226,209,.09);filter:blur(50px);right:-70px;top:-90px;pointer-events:none;}
+.visual-top{display:flex;justify-content:space-between;font-size:10px;letter-spacing:1px;color:var(--dim);text-transform:uppercase;}
+.visual-pill{border:1px solid rgba(125,226,209,.24);border-radius:30px;padding:5px 9px;color:var(--cyan);}
+.visual-flow{display:flex;align-items:center;justify-content:space-between;position:relative;margin:45px 0 30px;z-index:1;}
+.visual-flow::before{content:'';position:absolute;left:12px;right:12px;top:50%;height:1px;background:linear-gradient(90deg,var(--orange),var(--cyan),var(--purple));opacity:.65;}
+.visual-node{position:relative;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:#202b32;border:1px solid var(--border);color:var(--cyan);font:600 12px 'Space Grotesk',sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.22);}
+.visual-node:first-child{color:var(--orange);}
+.visual-node:last-child{color:var(--purple);}
+.visual-caption{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);position:relative;z-index:1;}
+.landing-stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:28px;color:var(--dim);font-size:12px;}
+.landing-stats span{display:flex;align-items:center;gap:7px;}
+.landing-stats span::before{content:'';width:5px;height:5px;background:var(--orange);border-radius:50%;}
+.landing-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:22px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.landing-step{padding:8px 14px 8px 0;}
+.landing-step-num{font:600 11px 'Space Grotesk',sans-serif;color:var(--orange);letter-spacing:1px;}
+.landing-step h2{font:600 16px 'Space Grotesk',sans-serif;color:var(--text);margin:10px 0 6px;}
+.landing-step p{font-size:13px;line-height:1.6;color:var(--dim);max-width:265px;}
+.landing-footer{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-top:24px;}
+.landing-note{font-size:11px;line-height:1.6;color:var(--dim);max-width:480px;}
+#btn-close-modal{background:var(--cyan);border:0;color:#152321;border-radius:10px;padding:14px 22px!important;font:700 13px 'Space Grotesk',sans-serif!important;letter-spacing:.3px!important;box-shadow:0 8px 24px rgba(125,226,209,.14);}
+#btn-close-modal:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(125,226,209,.23);}
+@media(max-width:700px){#modal-overlay{padding:24px 20px;align-items:flex-start;}.landing-hero{grid-template-columns:1fr;gap:26px;padding:38px 0 30px;}.landing-copy h1{font-size:clamp(38px,11vw,56px);}.landing-copy>p{font-size:14px;}.landing-visual{min-height:205px;padding:19px;}.visual-flow{margin:32px 0 24px;}.landing-steps{grid-template-columns:1fr;gap:8px;padding:17px 0;}.landing-step{padding:7px 0;}.landing-step h2{margin:5px 0;}.landing-footer{align-items:stretch;flex-direction:column;padding:20px 0 12px;}#btn-close-modal{width:100%;}}
 
 /* TOAST */
-.toast{position:fixed;top:64px;right:16px;z-index:9000;padding:9px 16px;border-radius:5px;font-size:10px;letter-spacing:1px;opacity:0;transition:opacity 0.3s;pointer-events:none;border:1px solid;font-family:'JetBrains Mono',monospace;}
+.toast{position:fixed;top:64px;right:16px;z-index:9000;padding:9px 16px;border-radius:9px;font-size:11px;letter-spacing:.2px;opacity:0;transition:opacity 0.3s;pointer-events:none;border:1px solid;font-family:'DM Sans',sans-serif;}
 .toast.show{opacity:1;}
 .toast.ok{background:rgba(0,255,136,0.1);border-color:rgba(0,255,136,0.35);color:var(--green);}
 .toast.err{background:rgba(255,51,85,0.1);border-color:rgba(255,51,85,0.35);color:var(--red);}
-.toast.info{background:rgba(0,200,255,0.09);border-color:rgba(0,200,255,0.35);color:var(--cyan);}
+.toast.info{background:rgba(125,226,209,0.09);border-color:rgba(125,226,209,0.3);color:var(--cyan);}
 
 /* RESPONSIVE */
-@media(max-width:1100px){#app{grid-template-columns:220px 1fr 240px;}}
-@media(max-width:860px){#app{grid-template-columns:0px 1fr 0px;}#left-panel,#right-panel{display:none;}.logo-sub{display:none;}}
+@media(max-width:1180px){#app{grid-template-columns:240px minmax(0,1fr) 280px;}.header-mid{gap:8px;}.header-controls{gap:5px;}.btn{padding:6px 9px;letter-spacing:1px;}}
+@media(max-width:860px){
+  body{height:auto;min-height:100vh;overflow:auto;}
+  #app{height:auto;min-height:100vh;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(380px,55vh) 112px auto auto;}
+  #header{grid-column:1;grid-row:1;min-height:58px;flex-wrap:wrap;gap:8px;padding:10px 12px;}
+  .logo{font-size:12px;letter-spacing:2px;}.logo-sub{display:none;}
+  .header-mid{order:3;width:100%;justify-content:space-between;}
+  .header-controls{flex-wrap:wrap;justify-content:flex-end;margin-left:auto;}
+  .header-controls>div{display:none!important;}
+  .btn{font-size:9px;padding:7px 9px;}
+  #left-panel{grid-column:1;grid-row:4;display:flex;min-height:280px;border-right:0;border-top:1px solid var(--border);}
+  #layer-list{max-height:220px;}
+  #right-panel{grid-column:1;grid-row:5;display:flex;min-height:260px;border-left:0;border-top:1px solid var(--border);}
+  #inspector{max-height:380px;}
+  #center-panel{grid-column:1;grid-row:2;min-height:380px;}
+  #timeline{grid-column:1;grid-row:3;padding:0 10px;overflow-x:auto;}
+  .tl-track,.tl-labels{min-width:600px;}
+  .tl-node{width:24px;height:24px;}
+  .tl-lbl{font-size:8px;}
+  #fmap-drawer.open{height:112px;}
+  .fmap-canvas{width:64px;height:64px;}
+  #prob-panel{right:8px;width:min(240px,60%);}
+  #explain-box{left:8px;max-width:calc(40% - 12px);font-size:9px;}
+  #journey-text{font-size:11px;}
+}
+@media(max-width:480px){
+  #app{grid-template-rows:auto minmax(340px,50vh) 102px auto auto;}
+  #header{justify-content:center;}
+  .logo{width:100%;justify-content:center;}
+  .header-controls{width:100%;justify-content:center;margin:0;}
+  .header-controls .btn{flex:1;max-width:100px;}
+  .header-mid{font-size:9px;}
+  #timeline{height:102px;}
+  .tl-labels{padding:0;}
+  #journey-text{top:44px;padding:7px 10px;}
+}
 </style>
 </head>
-<body>
+<body class="landing">
 <canvas id="stars"></canvas>
 
-<!-- MODAL -->
 <div id="modal-overlay">
   <div id="modal-box">
-    <h2>CNN.VISUALIZER</h2>
-    <p>Explore <strong style="color:var(--cyan)">MobileNetV2</strong>, a real-world AI — see exactly how it processes images layer by layer.</p>
-    <div class="modal-brief">
-      <strong>MISSION BRIEF:</strong>
-      <ul>
-        <li><strong style="color:var(--orange)">UPLOAD</strong> an animal's image (or hit a sample(dog/cat) button).</li>
-        <li><strong style="color:var(--orange)">HIT PLAY</strong> to watch the AI extract patterns live.</li>
-        <li><strong style="color:var(--cyan)">HOVER</strong> feature maps for 3× X-Ray zoom.</li>
-        <li><strong style="color:var(--cyan)">CLICK</strong> any timeline node to jump to that layer.</li>
-      </ul>
+    <div class="landing-topbar">
+      <div class="landing-brand">CNN<span>.</span>VISUALIZER</div>
+      <div class="landing-model">Interactive MobileNetV2 explorer</div>
     </div>
-    <button class="btn btn-cyan" id="btn-close-modal" style="width:100%;padding:12px;font-size:12px;letter-spacing:3px;">START EXPLORING →</button>
+    <section class="landing-hero">
+      <div class="landing-copy">
+        <div class="landing-kicker">A closer look at computer vision</div>
+        <h1>See how an AI <span>sees.</span></h1>
+        <p>Follow an image as it moves through MobileNetV2—from pixels and patterns to a final prediction. Explore each step at your own pace, without needing a machine-learning background.</p>
+        <div class="landing-stats"><span>9 guided stages</span><span>Plain-language explanations</span><span>Live image predictions</span></div>
+      </div>
+      <div class="landing-visual" aria-hidden="true">
+        <div class="visual-top"><span>One image · many transformations</span><span class="visual-pill">MOBILENETV2</span></div>
+        <div class="visual-flow">
+          <div class="visual-node">IMG</div><div class="visual-node">▦</div><div class="visual-node">◈</div><div class="visual-node">◎</div><div class="visual-node">AI</div>
+        </div>
+        <div class="visual-caption"><span>Pixels</span><span>Features</span><span>Prediction</span></div>
+      </div>
+    </section>
+    <section class="landing-steps" aria-label="How it works">
+      <article class="landing-step"><div class="landing-step-num">01 / ADD AN IMAGE</div><h2>Start with a picture</h2><p>Upload your own image or try one of the sample photos. The model will return its top guesses.</p></article>
+      <article class="landing-step"><div class="landing-step-num">02 / FOLLOW THE SIGNAL</div><h2>Explore the journey</h2><p>Press Play to step through the network, or choose any stage to jump straight to it.</p></article>
+      <article class="landing-step"><div class="landing-step-num">03 / MAKE SENSE OF IT</div><h2>See what each layer does</h2><p>Read a clear explanation alongside the output shape, operation, and prediction scores.</p></article>
+    </section>
+    <div class="landing-footer">
+      <p class="landing-note">Feature-map images are illustrative simulations. Predictions come from the MobileNetV2 model; the walkthrough explains its representative stages.</p>
+      <button class="btn" id="btn-close-modal">Start exploring <span aria-hidden="true">→</span></button>
+    </div>
   </div>
 </div>
 
@@ -209,16 +290,16 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div id="header">
     <div class="logo">CNN<span class="logo-dot">.</span>VISUALIZER<span class="logo-sub">MOBILENETV2 EXPLORER</span></div>
     <div class="header-mid">
-      <span id="step-lbl">LAYER 1/9</span>
+      <span id="step-lbl">STEP 1 OF 9</span>
       <div class="prog-wrap"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
-      <div class="backend-badge" id="backend-badge">
+      <div class="backend-badge" id="backend-badge" role="status" aria-live="polite">
         <div class="backend-dot"></div>
         <span id="backend-lbl">CHECKING...</span>
       </div>
     </div>
     <div class="header-controls">
       <div style="display:flex;align-items:center;gap:6px;margin-right:8px;">
-        <span style="font-size:8.5px;font-family:'Orbitron',sans-serif;color:var(--dim);letter-spacing:1px;">SPEED</span>
+        <span style="font-size:10px;font-family:'Space Grotesk',sans-serif;color:var(--dim);letter-spacing:.5px;">SPEED</span>
         <select class="speed-sel" id="speed-sel">
           <option value="2000">0.5×</option>
           <option value="1200" selected>1×</option>
@@ -235,22 +316,22 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <!-- LEFT PANEL -->
   <div id="left-panel">
-    <div class="panel-hdr">ARCHITECTURE LAYERS</div>
+    <div class="panel-hdr">1 · NETWORK STEPS <span style="display:block;font:400 11px 'DM Sans',sans-serif;letter-spacing:0;margin-top:4px;">Select a step to see what it does</span></div>
     <div id="layer-list"></div>
     <div id="image-section">
-      <div class="panel-hdr" style="padding:8px 0 7px;border:none;">INPUT IMAGE</div>
-      <div id="upload-zone" onclick="document.getElementById('file-input').click()">
+      <div class="panel-hdr" style="padding:8px 0 7px;border:none;">2 · CHOOSE AN IMAGE</div>
+      <button type="button" id="upload-zone" aria-label="Choose an image file" onclick="document.getElementById('file-input').click()">
         <div style="font-size:20px;color:var(--cyan);">⬆</div>
-        <p style="font-weight:bold;letter-spacing:1px;">UPLOAD ANIMAL IMAGE</p>
-        <p style="font-size:8px;margin-top:4px;">Single subject · Centered · Clear<br>Best results: Dogs, Cats, Birds, Wildlife </p>
-      </div>
-      <input type="file" id="file-input" accept="image/*">
+        <p style="font-weight:bold;letter-spacing:.5px;">Upload an image</p>
+        <p style="margin-top:4px;">JPG, PNG, or WebP · up to 10 MB<br>One clear, centered subject works best</p>
+      </button>
+      <input type="file" id="file-input" accept="image/*" aria-label="Select an image file">
       <div style="display:flex;gap:8px;margin-top:10px;">
         <button class="btn btn-cyan"   style="flex:1;padding:6px;font-size:8.5px;letter-spacing:1px;" onclick="loadSample('dog')">🐕 DOG</button>
         <button class="btn btn-orange" style="flex:1;padding:6px;font-size:8.5px;letter-spacing:1px;" onclick="loadSample('cat')">🐈 CAT</button>
       </div>
       <img id="preview-img" alt="preview">
-      <div id="proc-status" class="blinking">ANALYZING IMAGE...</div>
+      <div id="proc-status" class="blinking" role="status" aria-live="polite">ANALYZING IMAGE...</div>
     </div>
   </div>
 
@@ -258,10 +339,10 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
   <div id="center-panel">
     <canvas id="main-canvas"></canvas>
     <div id="layer-label">SELECT A LAYER</div>
-    <div id="journey-text">Awaiting input signal...</div>
-    <div id="fmap-drawer"><div id="fmap-inner"><div class="fmap-section-lbl">FEATURE MAPS</div></div></div>
+    <div id="journey-text" role="status" aria-live="polite">Step 1 · The image is resized and converted into 224 × 224 pixel data.</div>
+    <div id="fmap-drawer"><div id="fmap-inner"><div class="fmap-section-lbl">SIMULATED PREVIEWS</div></div></div>
     <div id="prob-panel">
-      <div class="prob-hdr">CLASS PROBABILITIES — SOFTMAX OUTPUT</div>
+      <div class="prob-hdr">PREDICTIONS · TOP 5 IMAGE LABELS</div>
       <div id="prob-bars"></div>
     </div>
     <div id="explain-box"></div>
@@ -269,11 +350,11 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
   <!-- RIGHT -->
   <div id="right-panel">
-    <div class="panel-hdr">LAYER INSPECTOR</div>
+    <div class="panel-hdr">3 · STEP EXPLANATION</div>
     <div id="inspector">
       <p style="font-size:10px;color:var(--dim);line-height:1.7;margin-top:6px;">
-        Click any layer on the left or timeline below to inspect it.<br><br>
-        Upload an image to see <strong style="color:var(--teal)">real feature maps</strong> from MobileNetV2.
+        Select a network step to see its purpose, output size, and key operation here.<br><br>
+        Upload an image for a MobileNetV2 prediction. Feature-map previews are simplified visual simulations, not internal model activations.
       </p>
     </div>
   </div>
@@ -300,7 +381,7 @@ const BACKEND_URL = (
    LAYER DATA — 9 MobileNetV2 layers
 ═══════════════════════════════════════════════════ */
 const LAYERS = [
-  {id:0,name:'INPUT',short:'IN',color:'#ff6a00',type:'input',
+  {id:0,name:'INPUT',short:'IN',color:'#f3a77c',type:'input',
    shape:'3×224×224',params:0,flops:0,memory:'588KB',
    formula:'X ∈ ℝ^{3×224×224}',fdetail:'Pixels normalised to [-1,1] via preprocess_input',
    simple:'The raw image enters as a 224×224 RGB tensor. Each pixel becomes a float32 value between -1 and 1.',
@@ -309,8 +390,8 @@ const LAYERS = [
    analogy:'<strong>Analogy:</strong> Handing a photograph to a detective — they see raw colours and shapes before interpreting anything meaningful.',
    interview:'Always discuss input normalisation at interviews. Raw [0,255] values saturate gradients; [-1,1] keeps early-layer gradients healthy.',
    paramPct:0,flopPct:0,memPct:5,
-   journey:'📥 Input: Receiving 224×224 RGB pixel data...'},
-  {id:1,name:'CONV 1',short:'C1',color:'#00c8ff',type:'conv',
+   journey:'Step 1 · The image is resized and converted into 224 × 224 pixel data.'},
+  {id:1,name:'CONV 1',short:'C1',color:'#83c8e1',type:'conv',
    shape:'32×112×112',params:864,flops:10838016,memory:'1.5MB',
    formula:'Output = floor((W-K+2P)/S)+1',fdetail:'Kernel: 3×3 | Filters: 32 | Stride: 2 | Padding: 1',
    simple:'32 small 3×3 filters slide across the image. Each learns to detect a different low-level pattern — edges, gradients, colour blobs. Stride=2 halves resolution 224→112.',
@@ -319,8 +400,8 @@ const LAYERS = [
    analogy:'<strong>Analogy:</strong> Running 32 different Instagram filters simultaneously — each highlighting a different visual feature.',
    interview:'Weight sharing gives translational equivariance and reduces params vs FC layers by orders of magnitude.',
    paramPct:1,flopPct:18,memPct:22,
-   journey:'🔍 Conv1: Detecting basic edges and colour gradients...'},
-  {id:2,name:'RELU6',short:'R6',color:'#ff2d78',type:'relu',
+   journey:'Step 2 · Small filters scan for simple patterns such as edges and colour changes.'},
+  {id:2,name:'RELU6',short:'R6',color:'#dc9eaf',type:'relu',
    shape:'32×112×112',params:0,flops:401408,memory:'1.5MB',
    formula:'f(x) = min(max(0, x), 6)',fdetail:'Element-wise | No learnable params | THIS is the activation layer',
    simple:'THIS IS THE ACTIVATION LAYER. Negatives become 0, values above 6 are capped at 6. Without this, stacked convolutions collapse into one linear equation no matter how deep.',
@@ -329,8 +410,8 @@ const LAYERS = [
    analogy:'<strong>Analogy:</strong> Like a neuron in your brain — it either fires (positive) or stays silent. No negative firing allowed.',
    interview:'Without activations, any number of stacked linear layers equals ONE linear layer. ReLU enables universal function approximation — classic interview question.',
    paramPct:0,flopPct:2,memPct:22,
-   journey:'🧠 ReLU6 (Activation): Filtering out negatives, capping at 6...'},
-  {id:3,name:'DEPTHWISE',short:'DW',color:'#00e5c8',type:'conv',
+   journey:'Step 3 · ReLU6 keeps useful positive signals and limits very large values.'},
+  {id:3,name:'DEPTHWISE',short:'DW',color:'#7de2d1',type:'conv',
    shape:'32×112×112',params:288,flops:3612672,memory:'1.5MB',
    formula:'y[c] = x[c] ★ k[c]  (per channel)',fdetail:'Kernel: 3×3 | Groups: 32 | One filter per channel',
    simple:'One 3×3 filter per channel, applied independently. Isolates spatial patterns without mixing channels. 8-9× cheaper than standard conv.',
@@ -339,8 +420,8 @@ const LAYERS = [
    analogy:'<strong>Analogy:</strong> Examining a scene through red, green, and blue lenses separately rather than all at once.',
    interview:'Depthwise Separable Conv (DW+PW) is the core MobileNet innovation. It splits spatial filtering from channel mixing, saving 8-9× FLOPs.',
    paramPct:0,flopPct:5,memPct:22,
-   journey:'📐 Depthwise: Analysing spatial patterns per channel independently...'},
-  {id:4,name:'POINTWISE',short:'PW',color:'#00c8ff',type:'conv',
+   journey:'Step 4 · Each channel is filtered separately to find spatial patterns.'},
+  {id:4,name:'POINTWISE',short:'PW',color:'#8dc6e1',type:'conv',
    shape:'16×112×112',params:512,flops:6422528,memory:'784KB',
    formula:'y = W × x  (1×1 Conv)',fdetail:'Kernel: 1×1 | Filters: 16 | No spatial mixing',
    simple:'A 1×1 convolution that mixes channels. Combines the depthwise spatial features into 16 richer maps, reducing channels 32→16.',
@@ -349,8 +430,8 @@ const LAYERS = [
    analogy:'<strong>Analogy:</strong> A soundboard mixer combining separate instrument tracks into one blended soundtrack.',
    interview:'1×1 convolutions enable cheap cross-channel feature interaction and bottleneck dimensionality reduction.',
    paramPct:1,flopPct:10,memPct:12,
-   journey:'🎨 Pointwise: Mixing channel features into 16 combined maps...'},
-  {id:5,name:'BOTTLENECK',short:'BN',color:'#ff6a00',type:'conv',
+   journey:'Step 5 · A 1 × 1 filter combines information across channels.'},
+  {id:5,name:'BOTTLENECK',short:'BN',color:'#e8b36d',type:'conv',
    shape:'24×56×56',params:3432,flops:10755072,memory:'294KB',
    formula:'Expand → Depthwise → Project',fdetail:'Expansion: 6× | Stride: 2 | Residual if shapes match',
    simple:'Core MobileNetV2 block. Expands channels 6×, applies depthwise conv, projects back down. Inverted residual shortcut connects thin ends.',
@@ -359,8 +440,8 @@ const LAYERS = [
    analogy:'<strong>Analogy:</strong> Unpacking a suitcase to inspect every item, then repacking tightly to save space.',
    interview:'Inverted residuals connect thin layers (not thick like ResNet). Linear bottleneck avoids info loss from ReLU on low-dimensional representations.',
    paramPct:4,flopPct:25,memPct:5,
-   journey:'🧩 Bottleneck: Expand → Depthwise filter → Compress (inverted residual)...'},
-  {id:6,name:'GLOBAL POOL',short:'GP',color:'#a855f7',type:'pool',
+   journey:'Step 6 · A compact block expands, filters, then compresses the features.'},
+  {id:6,name:'GLOBAL POOL',short:'GP',color:'#c2a9ed',type:'pool',
    shape:'1280',params:0,flops:1280,memory:'5KB',
    formula:'y_c = (1/H×W) × Σ x[c,i,j]',fdetail:'Global Average Pooling | 7×7 → 1×1 | No learnable params',
    simple:'Averages each of the 1280 feature channels (7×7 grid) down to a single number. Destroys spatial position — we only care if a feature exists anywhere.',
@@ -369,8 +450,8 @@ const LAYERS = [
    analogy:'<strong>Analogy:</strong> Reading 500 pages and rating each chapter from 1-10 in a single score.',
    interview:'GAP replaced Flatten+FC in most modern architectures. Forces globally useful feature detectors.',
    paramPct:0,flopPct:0,memPct:1,
-   journey:'📦 Global Pool: Compressing 7×7 maps into 1280 concept scores...'},
-  {id:7,name:'FC / DENSE',short:'FC',color:'#ffd700',type:'fc',
+   journey:'Step 7 · Each feature map is summarized into one value.'},
+  {id:7,name:'FC / DENSE',short:'FC',color:'#f0d28a',type:'fc',
    shape:'1000',params:1281000,flops:2560000,memory:'4KB',
    formula:'y = W·x + b',fdetail:'In: 1280 | Out: 1000 ImageNet classes | Linear, no activation',
    simple:'Connects all 1280 feature scores to all 1000 possible classes. Every feature votes on every class. This layer holds 94% of all parameters.',
@@ -379,8 +460,8 @@ const LAYERS = [
    analogy:'<strong>Analogy:</strong> A jury of 1280 experts each casting 1000 weighted votes on every possible verdict.',
    interview:'FC head = 94% of params in lightweight models. Swapping it out is standard transfer learning practice.',
    paramPct:94,flopPct:5,memPct:1,
-   journey:'⚖️ FC Dense: 1280 features voting across 1000 ImageNet classes...'},
-  {id:8,name:'SOFTMAX',short:'SM',color:'#00ff88',type:'softmax',
+   journey:'Step 8 · The extracted features are used to score possible image categories.'},
+  {id:8,name:'SOFTMAX',short:'SM',color:'#a8d8a4',type:'softmax',
    shape:'1000',params:0,flops:3000,memory:'4KB',
    formula:'σ(z)_i = e^{z_i} / Σ_j e^{z_j}',fdetail:'Output: probabilities | All in (0,1) | Sum = 1.0',
    simple:'Converts 1000 raw scores into probabilities summing to 100%. The class with the highest probability is the final prediction.',
@@ -389,7 +470,7 @@ const LAYERS = [
    analogy:'<strong>Analogy:</strong> A judging panel converting raw scores into % likelihood of winning.',
    interview:'Temperature scaling (dividing logits by T) softens/sharpens distribution — used in knowledge distillation.',
    paramPct:0,flopPct:0,memPct:1,
-   journey:'🏆 Softmax: Calculating final class probabilities — done!'},
+   journey:'Step 9 · Scores become probabilities; the highest-ranked labels appear here.'},
 ];
 
 /* ═══════════════════════════════════════════════════
@@ -508,7 +589,7 @@ function drawNetwork(){
   drawConnections(layout);
   layout.forEach((l,i)=>draw3DBox(l,i===currentLayer,i<currentLayer));
   const shorts=['IN','C1','R6','DW','PW','BN','GP','FC','SM'];
-  layout.forEach((l,i)=>{ctx.save();ctx.globalAlpha=i===currentLayer?1:(i<currentLayer?0.5:0.28);ctx.font='700 7.5px Orbitron';ctx.fillStyle=LAYERS[i].color;ctx.textAlign='center';ctx.fillText(shorts[i],l.cx+13,l.y+l.h+15);ctx.restore();});
+  layout.forEach((l,i)=>{ctx.save();ctx.globalAlpha=i===currentLayer?1:(i<currentLayer?0.5:0.45);ctx.font='600 9px "Space Grotesk"';ctx.fillStyle=LAYERS[i].color;ctx.textAlign='center';ctx.fillText(shorts[i],l.cx+13,l.y+l.h+15);ctx.restore();});
   if(kernelAnim.active)drawKernelAnim(layout);
   tickParticles();drawParticles();
   requestAnimationFrame(drawNetwork);
@@ -529,7 +610,7 @@ function goToLayer(idx, animate=true){
   const lbl=document.getElementById('layer-label');lbl.textContent=l.name;lbl.style.color=l.color;lbl.style.textShadow=`0 0 20px ${l.color}88`;
   // progress
   document.getElementById('prog-fill').style.width=((idx/(LAYERS.length-1))*100)+'%';
-  document.getElementById('step-lbl').textContent=`LAYER ${idx+1}/${LAYERS.length}`;
+  document.getElementById('step-lbl').textContent=`STEP ${idx+1} OF ${LAYERS.length}`;
   updateLayerList();updateTimeline();updateInspector();updateCenterPanels();
 }
 
@@ -538,18 +619,23 @@ function goToLayer(idx, animate=true){
 ═══════════════════════════════════════════════════ */
 function buildLayerList(){
   document.getElementById('layer-list').innerHTML=LAYERS.map((l,i)=>`
-    <div class="layer-item" id="li-${i}" onclick="stopPlay();goToLayer(${i})">
+    <div class="layer-item" id="li-${i}" role="button" tabindex="0" aria-label="Go to step ${i+1}: ${l.name}" onclick="stopPlay();goToLayer(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();stopPlay();goToLayer(${i})}">
       <div class="l-dot" style="background:${l.color}"></div>
       <div class="l-info">
         <div class="l-name" style="color:${l.color}">${l.name}</div>
         <div class="l-shape">${l.shape}</div>
-        <div class="l-params">${l.params?l.params.toLocaleString()+' params':'no params'}</div>
+        <div class="l-params">${l.params?l.params.toLocaleString()+' parameters':'No learnable parameters'}</div>
       </div>
     </div>`).join('');
 }
 function updateLayerList(){
-  LAYERS.forEach((_,i)=>{const el=document.getElementById(`li-${i}`);if(!el)return;el.classList.toggle('active',i===currentLayer);el.classList.toggle('passed',i<currentLayer);});
-  document.getElementById(`li-${currentLayer}`)?.scrollIntoView({behavior:'smooth',block:'nearest'});
+  LAYERS.forEach((_,i)=>{const el=document.getElementById(`li-${i}`);if(!el)return;el.classList.toggle('active',i===currentLayer);el.classList.toggle('passed',i<currentLayer);if(i===currentLayer)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');});
+  const list=document.getElementById('layer-list'),active=document.getElementById(`li-${currentLayer}`);
+  if(list&&active){
+    const listBounds=list.getBoundingClientRect(),activeBounds=active.getBoundingClientRect();
+    if(activeBounds.top<listBounds.top)list.scrollTop-=listBounds.top-activeBounds.top;
+    else if(activeBounds.bottom>listBounds.bottom)list.scrollTop+=activeBounds.bottom-listBounds.bottom;
+  }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -560,15 +646,15 @@ function buildTimeline(){
   track.innerHTML='';labels.innerHTML='';
   LAYERS.forEach((l,i)=>{
     if(i>0){const c=document.createElement('div');c.className='tl-conn';c.id=`tc-${i}`;track.appendChild(c);}
-    const n=document.createElement('div');n.className='tl-node';n.id=`tn-${i}`;n.textContent=l.short;n.style.borderColor=l.color;n.style.color=l.color;n.title=l.name;n.onclick=()=>{stopPlay();goToLayer(i);};track.appendChild(n);
-    const lb=document.createElement('div');lb.className='tl-lbl';lb.id=`tl-${i}`;lb.textContent=l.short;labels.appendChild(lb);
+    const n=document.createElement('button');n.type='button';n.className='tl-node';n.id=`tn-${i}`;n.textContent=l.short;n.style.borderColor=l.color;n.style.color=l.color;n.title=`Go to ${l.name}`;n.setAttribute('aria-label',`Go to step ${i+1}: ${l.name}`);n.onclick=()=>{stopPlay();goToLayer(i);};track.appendChild(n);
+    const lb=document.createElement('div');lb.className='tl-lbl';lb.id=`tl-${i}`;lb.textContent=l.name;labels.appendChild(lb);
   });
 }
 function updateTimeline(){
   LAYERS.forEach((l,i)=>{
     const n=document.getElementById(`tn-${i}`),lb=document.getElementById(`tl-${i}`);if(!n)return;
     const act=i===currentLayer,pas=i<currentLayer;
-    n.classList.toggle('active',act);n.style.background=act?l.color+'33':(pas?l.color+'18':'var(--bg)');n.style.boxShadow=act?`0 0 14px ${l.color}`:(pas?`0 0 6px ${l.color}44`:'none');
+    n.classList.toggle('active',act);n.setAttribute('aria-pressed',String(act));n.style.background=act?l.color+'33':(pas?l.color+'18':'var(--bg)');n.style.boxShadow=act?`0 0 14px ${l.color}`:(pas?`0 0 6px ${l.color}44`:'none');
     lb?.classList.toggle('active',act);
     if(i>0){const tc=document.getElementById(`tc-${i}`);if(tc)tc.className='tl-conn'+(i<=currentLayer?' passed':'');}
   });
@@ -617,12 +703,12 @@ function updateInspector(){
       <div class="interview-box"><div class="tag">INTERVIEW PREP</div><div>${l.interview}</div></div>
     </div>
     <div class="intuition-box">
-      <div style="font-size:8px;color:var(--dim);font-family:Orbitron,sans-serif;letter-spacing:2px;margin-bottom:4px">ONE-LINE INTUITION</div>
+      <div style="font-size:10px;color:var(--dim);font-family:'Space Grotesk',sans-serif;letter-spacing:.5px;margin-bottom:4px">ONE-LINE INTUITION</div>
       <div style="font-size:11.5px;color:${c};font-style:italic">"${l.intuition}"</div>
     </div>
     ${uploadedImg&&['conv','relu','pool'].includes(l.type)?`
     <div class="insp-sec" style="margin-top:12px">
-      <div class="insp-lbl">FEATURE MAP PREVIEW</div>
+      <div class="insp-lbl">SIMULATED FEATURE MAPS</div>
       <div class="fmap-thumb-area" id="fmap-thumb-area"><span style="font-size:9px;color:var(--dim)">Rendering...</span></div>
     </div>`:''}`;
   if(uploadedImg&&['conv','relu','pool'].includes(l.type))setTimeout(()=>populateInspectorThumbs(l),30);
@@ -642,7 +728,7 @@ function updateCenterPanels(){
   const l=LAYERS[currentLayer];
   const drawer=document.getElementById('fmap-drawer'),inner=document.getElementById('fmap-inner');
   const probPanel=document.getElementById('prob-panel'),explainBox=document.getElementById('explain-box');
-  inner.innerHTML='<div class="fmap-section-lbl">FEATURE MAPS</div>';
+  inner.innerHTML='<div class="fmap-section-lbl">SIMULATED PREVIEWS</div>';
   probPanel.classList.remove('open');explainBox.classList.remove('open');drawer.classList.remove('open');
   if(l.type==='softmax'){
     probPanel.classList.add('open');
@@ -709,8 +795,8 @@ function renderProbabilities(){
         <div style="text-align:center;padding:14px 8px;">
           <div style="font-size:20px;margin-bottom:8px;">⏳</div>
           <div style="font-size:10px;color:var(--cyan);line-height:1.6">
-            Awaiting backend prediction...<br>
-            <span style="font-size:8.5px;opacity:0.7;display:block;margin-top:6px">Backend may take 30-50s to cold-start on Render</span>
+            Your image is being analyzed...<br>
+            <span style="font-size:8.5px;opacity:0.7;display:block;margin-top:6px">The first prediction can take up to a minute while the model starts.</span>
           </div>
         </div>`;
       if(explain){explain.innerHTML='<strong>Processing:</strong> Image sent to MobileNetV2 — waiting for predictions. Backend cold-starts in 30-50s.';explain.classList.add('open');}
@@ -719,8 +805,8 @@ function renderProbabilities(){
         <div style="text-align:center;padding:14px 8px;">
           <div style="font-size:20px;margin-bottom:8px;opacity:0.4">📊</div>
           <div style="font-size:10px;color:var(--dim);line-height:1.6">
-            Upload an image to see<br>real MobileNetV2 predictions<br>
-            <span style="font-size:8.5px;opacity:0.6;display:block;margin-top:6px">Backend may take 30-50s to wake up on first use</span>
+            Choose an image to see<br>MobileNetV2 predictions<br>
+            <span style="font-size:8.5px;opacity:0.6;display:block;margin-top:6px">A first prediction can take up to a minute while the model starts.</span>
           </div>
         </div>`;
       if(explain){explain.innerHTML='<strong>Standby:</strong> No image processed yet. Upload any image to get live predictions from MobileNetV2.';explain.classList.add('open');}
@@ -788,14 +874,16 @@ function resetForNewImage(){
         Correct retry with toast feedback
 ═══════════════════════════════════════════════════ */
 async function sendToFlask(file, attempt=0){
+  const maxRetries=3;
   const s=document.getElementById('proc-status');
   s.style.display='block';
-  s.textContent=attempt===0?'ANALYZING IMAGE...':`SERVER WAKING (${attempt}/3)...`;
+  s.textContent=attempt===0?'Sending image to the model. First analysis can take up to a minute...':`Model starting — retry ${attempt} of ${maxRetries}...`;
   const fd=new FormData();fd.append('image',file);
   try{
     const res=await fetch(`${BACKEND_URL}/predict`,{method:'POST',body:fd});
-    if(res.status===502&&attempt<5){
-      toast(`Server waking — retry ${attempt+1}/5...`,'info');
+    if([502,503,504].includes(res.status)&&attempt<maxRetries){
+      s.textContent=`Model is starting — retrying in 12 seconds (${attempt+1} of ${maxRetries})...`;
+      toast(`Model is starting — retry ${attempt+1} of ${maxRetries}...`,'info');
       setTimeout(()=>sendToFlask(file,attempt+1),12000);return;
     }
     if(!res.ok)throw new Error('HTTP '+res.status);
@@ -815,11 +903,12 @@ async function sendToFlask(file, attempt=0){
       renderProbabilities();
     }
   }catch(err){
-    s.style.display='none';
-    if(attempt<5){
-      toast(`Retry ${attempt+1}/5...`,'info');
+    if(attempt<maxRetries){
+      s.textContent=`Connection interrupted — retrying in 12 seconds (${attempt+1} of ${maxRetries})...`;
+      toast(`Connection interrupted — retry ${attempt+1} of ${maxRetries}...`,'info');
       setTimeout(()=>sendToFlask(file,attempt+1),12000);return;
     }
+    s.style.display='none';
     toast('Backend error: '+err.message,'err');setBackend(false);
   }
 }
@@ -982,6 +1071,7 @@ document.getElementById('speed-sel').onchange=function(){
   playTimer=setInterval(()=>{if(currentLayer>=LAYERS.length-1){stopPlay();return;}goToLayer(currentLayer+1);},spd);
 };
 document.addEventListener('keydown',e=>{
+  if(e.target.closest('button,[role="button"],input,select'))return;
   if(e.key==='ArrowRight')document.getElementById('btn-next').click();
   if(e.key==='ArrowLeft')document.getElementById('btn-prev').click();
   if(e.key===' '){e.preventDefault();document.getElementById('btn-play').click();}
@@ -995,7 +1085,10 @@ function toast(msg,type='info'){const el=document.getElementById('toast');el.tex
 /* ═══════════════════════════════════════════════════
    MODAL
 ═══════════════════════════════════════════════════ */
-document.getElementById('btn-close-modal').onclick=()=>document.getElementById('modal-overlay').classList.add('hidden');
+document.getElementById('btn-close-modal').onclick=()=>{
+  document.getElementById('modal-overlay').classList.add('hidden');
+  document.body.classList.remove('landing');
+};
 
 /* ═══════════════════════════════════════════════════
    INIT

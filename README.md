@@ -7,9 +7,9 @@
 
 ## What Is This?
 
-CNN.VISUALIZER is a full-stack interactive tool that lets you **see inside a real Convolutional Neural Network** as it processes your image — layer by layer, in real time.
+CNN.VISUALIZER is a full-stack interactive explorer for following an image through the representative stages of a Convolutional Neural Network. MobileNetV2 classifies the uploaded image and returns its top-5 predictions; the animated layer walkthrough and feature-map previews are educational visualizations, not live internal model activations.
 
-Upload any photo. Watch the signal travel through 9 architectural stages — from raw pixels to class probabilities — with animated 3D layer visualization, live feature maps, and a detailed inspector panel for every operation. The backend runs **MobileNetV2 trained on ImageNet** and returns top-5 predictions with confidence scores.
+Upload any photo. Follow the image through 9 representative architectural stages — from raw pixels to class probabilities — with an animated 3D walkthrough, simulated feature-map previews, and a detailed inspector panel for every operation. The backend runs **MobileNetV2 trained on ImageNet** and returns top-5 predictions with confidence scores.
 
 This wasn't built to be a tutorial. It was built to answer one question I kept asking myself when studying CNNs: *"What is the network actually seeing right now?"*
 
@@ -28,14 +28,14 @@ So I built it.
 - **Real AI inference** — MobileNetV2 (ImageNet weights) runs on every uploaded image via Flask REST API
 - **9-layer architecture walkthrough** — Input → Conv1 → ReLU6 → Depthwise → Pointwise → Bottleneck → Global Pool → FC → Softmax
 - **3D isometric layer visualization** — animated signal-flow particles travel between layers on an HTML5 Canvas
-- **Live feature maps** — 8 client-side pixel transforms simulate what each filter type detects (edges, gradients, colour channels, thresholds)
+- **Simulated feature-map previews** — 8 client-side pixel transforms illustrate patterns such as edges, gradients, colour channels, and thresholds
 - **Layer Inspector** — operation formula, parameter count, FLOPs, memory, real-world analogy, and interview prep insight for every layer
 - **Class probability bars** — animated softmax output showing top-5 predictions with confidence percentages
 - **Low-confidence warning** — automatically flags predictions below 30% and explains common failure modes
 - **X-Ray mode** — hover any feature map to zoom 3.2× inline without leaving the page
-- **Auto-retry on cold start** — 3x automatic retry with 8-second gaps handles Render free-tier spin-up transparently
-- **Backend health indicator** — live green/red status badge pings `/health` every 15 seconds
-- **Responsive layout** — side panels collapse on narrow viewports so the canvas stays usable
+- **Auto-retry on cold start** — up to 3 retries with 12-second gaps handle Render free-tier spin-up
+- **Backend health indicator** — live green/red status badge checks `/health` every 20 seconds
+- **Responsive layout** — upload, layer selection, explanations, and timeline remain available on narrow screens
 - **Keyboard navigation** — Arrow keys step through layers, Space bar plays/pauses the forward pass animation
 
 ---
